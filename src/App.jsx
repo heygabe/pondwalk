@@ -281,7 +281,11 @@ export default function App() {
                           />
                         </div>
                         <div className="item-info">
-                          <h3 className="item-filename">{photo.filename}</h3>
+                          <h3 className="item-filename">
+                            {photo.plants.length > 0 
+                              ? `The ${photo.plants[0].commonName} Discovery` 
+                              : "A Moment in the Pond"}
+                          </h3>
                           <p className="item-plants-count">
                             {photo.plants.length} {photo.plants.length === 1 ? 'Plant' : 'Plants'} identified
                           </p>
