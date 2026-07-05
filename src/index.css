@@ -1066,6 +1066,12 @@ body {
     position: relative;
   }
   
+  .photo-list {
+    flex: none;
+    overflow-y: visible;
+    max-height: none;
+  }
+  
   .sidebar-top { grid-area: sidebar-top; border-bottom: 1px solid var(--border-light); }
   .sidebar-bottom { grid-area: sidebar-bottom; }
 
