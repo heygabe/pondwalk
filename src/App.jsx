@@ -157,177 +157,185 @@ export default function App() {
     <div className="app-container">
       {/* Sidebar Navigation */}
       <aside className="sidebar">
-        <div className="sidebar-header">
-          <div className="sidebar-title-container">
-            <span className="sidebar-title-icon">🌿</span>
-            <h1 className="sidebar-title">Pond Walk Explorer</h1>
+        <div className="sidebar-top">
+          <div className="sidebar-header">
+            <div className="sidebar-title-container">
+              <span className="sidebar-title-icon">🌿</span>
+              <h1 className="sidebar-title">Pond Walk Explorer</h1>
+            </div>
+            <p className="sidebar-subtitle">Botanical Identification & Trail Guide</p>
           </div>
-          <p className="sidebar-subtitle">Botanical Identification & Trail Guide</p>
-        </div>
 
-        {/* View Selection Tab */}
-        <div className="view-tabs">
-          <div 
-            className={`view-tab ${viewMode === 'gallery' ? 'active' : ''}`}
-            onClick={() => setViewMode('gallery')}
-          >
-            🧭 Gallery View
+          {/* View Selection Tab */}
+          <div className="view-tabs">
+            <div 
+              className={`view-tab ${viewMode === 'gallery' ? 'active' : ''}`}
+              onClick={() => setViewMode('gallery')}
+            >
+              🧭 Gallery View
+            </div>
+            <div 
+              className={`view-tab ${viewMode === 'stats' ? 'active' : ''}`}
+              onClick={() => setViewMode('stats')}
+            >
+              📈 Trail Stats
+            </div>
           </div>
-          <div 
-            className={`view-tab ${viewMode === 'stats' ? 'active' : ''}`}
-            onClick={() => setViewMode('stats')}
-          >
-            📈 Trail Stats
-          </div>
-        </div>
 
-        {viewMode === 'gallery' && (
-          <>
-            {/* Search and Filters */}
-            <div className="search-filter-section">
-              <div className="search-box">
-                <span className="search-icon">🔍</span>
-                <input 
-                  type="text" 
-                  className="search-input"
-                  placeholder="Search plants, facts, photos..." 
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-
-              <div className="filters-wrapper">
-                <div className="filter-label">Conservation Status</div>
-                <div className="chips-container">
-                  <span 
-                    className={`chip ${statusFilter === 'all' ? 'active' : ''}`}
-                    onClick={() => setStatusFilter('all')}
-                  >
-                    All
-                  </span>
-                  <span 
-                    className={`chip ${statusFilter === 'native' ? 'active' : ''}`}
-                    onClick={() => setStatusFilter('native')}
-                  >
-                    Native
-                  </span>
-                  <span 
-                    className={`chip ${statusFilter === 'invasive' ? 'active' : ''}`}
-                    onClick={() => setStatusFilter('invasive')}
-                  >
-                    Invasive
-                  </span>
-                  <span 
-                    className={`chip ${statusFilter === 'introduced' ? 'active' : ''}`}
-                    onClick={() => setStatusFilter('introduced')}
-                  >
-                    Introduced
-                  </span>
+          {viewMode === 'gallery' && (
+            <>
+              {/* Search and Filters */}
+              <div className="search-filter-section">
+                <div className="search-box">
+                  <span className="search-icon">🔍</span>
+                  <input 
+                    type="text" 
+                    className="search-input"
+                    placeholder="Search plants, facts, photos..." 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
                 </div>
-              </div>
 
-              <div className="filters-wrapper">
-                <div className="filter-label">Plant Group</div>
-                <div className="chips-container">
-                  <span 
-                    className={`chip ${typeFilter === 'all' ? 'active' : ''}`}
-                    onClick={() => setTypeFilter('all')}
-                  >
-                    All
-                  </span>
-                  {allTypes.map(type => (
+                <div className="filters-wrapper">
+                  <div className="filter-label">Conservation Status</div>
+                  <div className="chips-container">
                     <span 
-                      key={type}
-                      className={`chip ${typeFilter === type ? 'active' : ''}`}
-                      onClick={() => setTypeFilter(type)}
+                      className={`chip ${statusFilter === 'all' ? 'active' : ''}`}
+                      onClick={() => setStatusFilter('all')}
                     >
-                      {type}
+                      All
                     </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* List of Photos */}
-            <div className="photo-list">
-              {filteredPhotos.length > 0 ? (
-                filteredPhotos.map(photo => {
-                  const isActive = activePhoto && photo.id === activePhoto.id;
-                  const hasNative = photo.plants.some(p => p.status.toLowerCase() === 'native');
-                  const hasInvasive = photo.plants.some(p => p.status.toLowerCase() === 'invasive');
-                  const hasIntroduced = photo.plants.some(p => p.status.toLowerCase() === 'introduced');
-                  
-                  return (
-                    <div 
-                      key={photo.id}
-                      className={`photo-item ${isActive ? 'active' : ''}`}
-                      onClick={() => {
-                        setActivePhotoId(photo.id);
-                        setHighlightedPlantName(null);
-                      }}
+                    <span 
+                      className={`chip ${statusFilter === 'native' ? 'active' : ''}`}
+                      onClick={() => setStatusFilter('native')}
                     >
-                      <div className="item-thumbnail-container">
-                        <img 
-                          src={photo.imagePath} 
-                          alt={photo.filename} 
-                          className="item-thumbnail" 
-                        />
-                      </div>
-                      <div className="item-info">
-                        <h3 className="item-filename">{photo.filename}</h3>
-                        <p className="item-plants-count">
-                          {photo.plants.length} {photo.plants.length === 1 ? 'Plant' : 'Plants'} identified
-                        </p>
-                        <div className="item-badges">
-                          {hasNative && <span className="badge-micro native">Native</span>}
-                          {hasInvasive && <span className="badge-micro invasive">Invasive</span>}
-                          {hasIntroduced && <span className="badge-micro introduced">Introduced</span>}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="no-results">
-                  <span className="no-results-icon">🍃</span>
-                  <p>No photos match your filter criteria.</p>
-                  <button 
-                    className="chip active" 
-                    onClick={() => {
-                      setSearchTerm('');
-                      setStatusFilter('all');
-                      setTypeFilter('all');
-                    }}
-                  >
-                    Reset Filters
-                  </button>
-                </div>
-              )}
-            </div>
-          </>
-        )}
-
-        {viewMode === 'stats' && (
-          <div className="photo-list">
-            <div className="filter-label" style={{ padding: '0 8px 8px' }}>Observation Checklist</div>
-            <div className="glossary-grid" style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: 'none' }}>
-              {stats.uniqueSpeciesList.map(plant => (
-                <div 
-                  key={plant.commonName}
-                  className="glossary-item"
-                  onClick={() => selectUniquePlant(plant.commonName, plant.firstPhotoId)}
-                >
-                  <div className="glossary-common">{plant.commonName}</div>
-                  <div className="glossary-scientific">{plant.scientificName}</div>
-                  <div className="item-badges" style={{ marginTop: '4px' }}>
-                    <span className={`badge-micro ${plant.status.toLowerCase()}`}>{plant.status}</span>
-                    <span className="badge-micro type">{plant.type}</span>
+                      Native
+                    </span>
+                    <span 
+                      className={`chip ${statusFilter === 'invasive' ? 'active' : ''}`}
+                      onClick={() => setStatusFilter('invasive')}
+                    >
+                      Invasive
+                    </span>
+                    <span 
+                      className={`chip ${statusFilter === 'introduced' ? 'active' : ''}`}
+                      onClick={() => setStatusFilter('introduced')}
+                    >
+                      Introduced
+                    </span>
                   </div>
                 </div>
-              ))}
+
+                <div className="filters-wrapper">
+                  <div className="filter-label">Plant Group</div>
+                  <div className="chips-container">
+                    <span 
+                      className={`chip ${typeFilter === 'all' ? 'active' : ''}`}
+                      onClick={() => setTypeFilter('all')}
+                    >
+                      All
+                    </span>
+                    {allTypes.map(type => (
+                      <span 
+                        key={type}
+                        className={`chip ${typeFilter === type ? 'active' : ''}`}
+                        onClick={() => setTypeFilter(type)}
+                      >
+                        {type}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="sidebar-bottom">
+          {viewMode === 'gallery' && (
+            <>
+              {/* List of Photos */}
+              <div className="photo-list">
+                {filteredPhotos.length > 0 ? (
+                  filteredPhotos.map(photo => {
+                    const isActive = activePhoto && photo.id === activePhoto.id;
+                    const hasNative = photo.plants.some(p => p.status.toLowerCase() === 'native');
+                    const hasInvasive = photo.plants.some(p => p.status.toLowerCase() === 'invasive');
+                    const hasIntroduced = photo.plants.some(p => p.status.toLowerCase() === 'introduced');
+                    
+                    return (
+                      <div 
+                        key={photo.id}
+                        className={`photo-item ${isActive ? 'active' : ''}`}
+                        onClick={() => {
+                          setActivePhotoId(photo.id);
+                          setHighlightedPlantName(null);
+                        }}
+                      >
+                        <div className="item-thumbnail-container">
+                          <img 
+                            src={photo.imagePath} 
+                            alt={photo.filename} 
+                            className="item-thumbnail" 
+                          />
+                        </div>
+                        <div className="item-info">
+                          <h3 className="item-filename">{photo.filename}</h3>
+                          <p className="item-plants-count">
+                            {photo.plants.length} {photo.plants.length === 1 ? 'Plant' : 'Plants'} identified
+                          </p>
+                          <div className="item-badges">
+                            {hasNative && <span className="badge-micro native">Native</span>}
+                            {hasInvasive && <span className="badge-micro invasive">Invasive</span>}
+                            {hasIntroduced && <span className="badge-micro introduced">Introduced</span>}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="no-results">
+                    <span className="no-results-icon">🍃</span>
+                    <p>No photos match your filter criteria.</p>
+                    <button 
+                      className="chip active" 
+                      onClick={() => {
+                        setSearchTerm('');
+                        setStatusFilter('all');
+                        setTypeFilter('all');
+                      }}
+                    >
+                      Reset Filters
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {viewMode === 'stats' && (
+            <div className="photo-list">
+              <div className="filter-label" style={{ padding: '0 8px 8px' }}>Observation Checklist</div>
+              <div className="glossary-grid" style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: 'none' }}>
+                {stats.uniqueSpeciesList.map(plant => (
+                  <div 
+                    key={plant.commonName}
+                    className="glossary-item"
+                    onClick={() => selectUniquePlant(plant.commonName, plant.firstPhotoId)}
+                  >
+                    <div className="glossary-common">{plant.commonName}</div>
+                    <div className="glossary-scientific">{plant.scientificName}</div>
+                    <div className="item-badges" style={{ marginTop: '4px' }}>
+                      <span className={`badge-micro ${plant.status.toLowerCase()}`}>{plant.status}</span>
+                      <span className="badge-micro type">{plant.type}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </aside>
 
       {/* Main Panel Content */}
