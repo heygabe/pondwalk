@@ -338,7 +338,11 @@ export default function App() {
               {/* Header */}
               <div className="content-header">
                 <div className="photo-title-area">
-                  <h2 className="photo-title">{activePhoto.filename}</h2>
+                  <h2 className="photo-title">
+                    {activePhoto.plants.length > 0 
+                      ? `The ${activePhoto.plants[0].commonName} Discovery` 
+                      : "A Moment in the Pond"}
+                  </h2>
                   <p className="photo-subtitle">Pond Walk Location Reference</p>
                 </div>
 
