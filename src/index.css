@@ -1053,8 +1053,8 @@ body {
   .app-container {
     display: grid;
     grid-template-areas: 
-      "sidebar-top"
       "main-content"
+      "sidebar-top"
       "sidebar-bottom";
     grid-template-columns: 1fr;
   }
