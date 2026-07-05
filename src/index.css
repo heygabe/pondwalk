@@ -1051,32 +1051,39 @@ body {
 /* Responsive adjustments */
 @media (max-width: 900px) {
   .app-container {
-    flex-direction: column;
+    display: grid;
+    grid-template-areas: 
+      "sidebar-top"
+      "main-content"
+      "sidebar-bottom";
+    grid-template-columns: 1fr;
   }
   
   .sidebar {
     width: 100%;
     height: auto;
-    max-height: 40vh; /* Reduced from 50vh */
     border-right: none;
-    border-bottom: 1px solid var(--border-light);
     position: relative;
   }
   
-  .main-content {
+  .sidebar-top { grid-area: sidebar-top; border-bottom: 1px solid var(--border-light); }
+  .sidebar-bottom { grid-area: sidebar-bottom; }
+
+  .main-content { 
+    grid-area: main-content;
     height: auto;
     overflow-y: visible;
-    padding: 16px; /* Reduced from 24px */
-    gap: 16px; /* Reduced from 32px */
+    padding: 16px;
+    gap: 16px;
   }
   
   .photo-display-grid {
     grid-template-columns: 1fr;
-    gap: 16px; /* Reduced from 32px */
+    gap: 16px;
   }
   
   .photo-title {
-    font-size: 20px; /* Reduced from 28px */
+    font-size: 20px;
   }
   
   .content-header {
