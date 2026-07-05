@@ -1057,7 +1057,7 @@ body {
   .sidebar {
     width: 100%;
     height: auto;
-    max-height: 50vh;
+    max-height: 40vh; /* Reduced from 50vh */
     border-right: none;
     border-bottom: 1px solid var(--border-light);
     position: relative;
@@ -1066,10 +1066,41 @@ body {
   .main-content {
     height: auto;
     overflow-y: visible;
-    padding: 24px;
+    padding: 16px; /* Reduced from 24px */
+    gap: 16px; /* Reduced from 32px */
   }
   
   .photo-display-grid {
     grid-template-columns: 1fr;
+    gap: 16px; /* Reduced from 32px */
+  }
+  
+  .photo-title {
+    font-size: 20px; /* Reduced from 28px */
+  }
+  
+  .content-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .photo-nav-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-title {
+    font-size: 18px;
+  }
+  
+  .photo-title {
+    font-size: 18px;
+  }
+  
+  .plant-common-title {
+    font-size: 20px;
   }
 }
